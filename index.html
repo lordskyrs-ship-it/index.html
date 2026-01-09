@@ -1,34 +1,44 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Feedback</title>
-</head>
 <body>
 
-<h2>Feedback</h2>
+<div id="step1">
+  <h3>Feedback 1</h3>
+  <input id="f1" type="text" placeholder="Feedback 1">
+  <button onclick="submitF1()">Submit</button>
+</div>
 
-<textarea id="feedback" placeholder="Write your feedback..." rows="5" cols="30"></textarea>
-<br><br>
+<div id="step2" style="display:none;">
+  <h3>Feedback 2</h3>
+  <input id="f2" type="text" placeholder="Feedback 2">
+  <button onclick="submitF2()">Submit</button>
+</div>
 
-<button onclick="send()">Submit</button>
-
-<p id="result"></p>
+<div id="done" style="display:none;">
+  <h3>Done ✅</h3>
+  <a href="V6_SCRIPT_DOWNLOAD_LINK" download>
+    ⬇ Download Script V6
+  </a>
+</div>
 
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxDH_4C5BOb7AwGnWSjFN5Qx52lyZHF--i7uGEJ68mFpQj3Fpt2wdAptvJNhpWCCgh38w/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbznRC4qPBMuiW0SyGdn4RC3KBBwZu_pvVD_TpBj6YGK2qaWj1Q3__B3YnOMcvFWitKUNQ/exec";
 
-function send() {
-  const feedback = document.getElementById("feedback").value;
+function submitF1() {
+  const v = document.getElementById("f1").value;
+  fetch(WEB_APP_URL + "?feedback=" + encodeURIComponent(v))
+    .then(() => {
+      document.getElementById("step1").style.display = "none";
+      document.getElementById("step2").style.display = "block";
+    });
+}
 
-  fetch(WEB_APP_URL + "?feedback=" + encodeURIComponent(feedback))
-    .then(res => res.text())
-    .then(txt => {
-      document.getElementById("result").innerText =
-        txt === "OK" ? "Submitted ✅" : txt;
-    })
-    .catch(err => {
-      document.getElementById("result").innerText = "Error ❌";
+function submitF2() {
+  const v = document.getElementById("f2").value;
+  fetch(WEB_APP_URL + "?feedback=" + encodeURIComponent(v))
+    .then(() => {
+      document.getElementById("step2").style.display = "none";
+      document.getElementById("done").style.display = "block";
     });
 }
 </script>
