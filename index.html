@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Feedback</title>
-</head>
 <body>
 
-<h2>Feedback</h2>
+<h3>Feedback</h3>
 
-<textarea id="feedback" placeholder="Write your feedback..." rows="5" cols="30"></textarea>
-<br><br>
+<textarea id="feedback" placeholder="Feedback 1"></textarea><br><br>
+<textarea id="feedback2" placeholder="Feedback 2"></textarea><br><br>
 
 <button onclick="send()">Submit</button>
 
-<p id="result"></p>
+<p id="status"></p>
 
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxEe8bReBDrTiEyTyxGjhhT8_Q4T7bSAt8dNZut3v-VO3v4pyPP0ap9-TIsW3ag2lUE/exec";
 
 function send() {
   const feedback = document.getElementById("feedback").value;
+  const feedback2 = document.getElementById("feedback2").value;
 
-  fetch(WEB_APP_URL + "?feedback=" + encodeURIComponent(feedback))
-    .then(res => res.text())
-    .then(txt => {
-      document.getElementById("result").innerText =
-        txt === "OK" ? "Submitted ✅" : txt;
+  fetch(WEB_APP_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      feedback: feedback,
+      feedback2: feedback2
     })
-    .catch(err => {
-      document.getElementById("result").innerText = "Error ❌";
-    });
+  })
+  .then(res => res.json())
+  .then(() => {
+    document.getElementById("status").innerText = "Submitted ✅";
+    document.getElementById("feedback").value = "";
+    document.getElementById("feedback2").value = "";
+  })
+  .catch(() => {
+    document.getElementById("status").innerText = "Error ❌";
+  });
 }
 </script>
 
