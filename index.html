@@ -2,30 +2,41 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Submit Form</title>
+  <title>Error Report</title>
 </head>
 <body>
 
-<h2>Submit Form</h2>
+<h2>Submit Error</h2>
 
-<input id="name" type="text" placeholder="Name"><br><br>
-<input id="message" type="text" placeholder="Message"><br><br>
+<input id="name" placeholder="Error (unsay problema?)"><br><br>
+
+<textarea id="message" placeholder="Want to fix (unsa imong gusto ayohon?)"></textarea><br><br>
 
 <button onclick="sendData()">Submit</button>
 
 <p id="result"></p>
-  
+
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwU6fdLRTOYSxrdZn4PFsiQRZ-SZ4D1Jlj1_sZ3jdp7KFOkApfsZ_ejDdM_u6-uxq49xg/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzlpaP3Gs-WLyhhM2giqiaUb4Y814Habt9Rc2klxDpRnWRc-La2xtC7pWebAy9GazrYVw/exec"; // <-- ibutang imong Web App URL
 
 function sendData() {
-  const formData = new FormData();
-  formData.append("name", document.getElementById("name").value);
-  formData.append("message", document.getElementById("message").value);
+  const name = document.getElementById("name").value.trim();
+  const message = document.getElementById("message").value.trim();
+
+  if (!name || !message) {
+    document.getElementById("result").innerText = "Fill all fields ❌";
+    return;
+  }
 
   fetch(WEB_APP_URL, {
     method: "POST",
-    body: formData
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      name: name,
+      message: message
+    })
   })
   .then(res => res.json())
   .then(res => {
