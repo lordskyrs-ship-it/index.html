@@ -2,14 +2,14 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Send to Google Sheet</title>
+  <title>Submit Form</title>
 </head>
 <body>
 
 <h2>Submit Form</h2>
 
-<input id="name" placeholder="name"><br><br>
-<textarea id="message" placeholder="message"></textarea><br><br>
+<input id="name" type="text" placeholder="Name"><br><br>
+<input id="message" type="text" placeholder="Message"><br><br>
 
 <button onclick="sendData()">Submit</button>
 
@@ -19,26 +19,20 @@
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwU6fdLRTOYSxrdZn4PFsiQRZ-SZ4D1Jlj1_sZ3jdp7KFOkApfsZ_ejDdM_u6-uxq49xg/exec";
 
 function sendData() {
-  const data = {
-    name: document.getElementById("name").value,
-    message: document.getElementById("message").value
-  };
+  const formData = new FormData();
+  formData.append("name", document.getElementById("name").value);
+  formData.append("message", document.getElementById("message").value);
 
   fetch(WEB_APP_URL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
+    body: formData
   })
-  .then(res => res.json())
-  .then(res => {
-    document.getElementById("result").innerText =
-      res.status === "success" ? "Submitted ✅" : "Failed ❌";
+  .then(res => res.text())
+  .then(txt => {
+    document.getElementById("result").innerText = txt;
   })
   .catch(err => {
     document.getElementById("result").innerText = "Error ❌";
-    console.error(err);
   });
 }
 </script>
