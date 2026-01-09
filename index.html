@@ -1,18 +1,39 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Coming Soon</title>
-</head>
-<body>
+<h2>V6 Download</h2>
 
-<h1>SCRIPT</h1>
-
-<a href="V6.txt" download onclick="addCount()">
-  Download Script V6
+<a href="V6.txt" download>
+  <button>Download V6</button>
 </a>
 
+<hr>
 
-  <a href="https://docs.google.com/forms/d/e/1FAIpQLSdh1yXj06wKGnoPtc6ljWax2treVtvlHQdrNm0pPI0ph1Sxhg/viewform"
-   target="_blank">
-  <button>Report Error</button>
-  </a>
+<h3>Feedback</h3>
+
+<input type="text" id="feedbackInput" placeholder="Type your feedback here" style="width:100%;padding:8px;">
+<br><br>
+<button onclick="submitFeedback()">Submit</button>
+
+<hr>
+
+<h3>LOG</h3>
+<div id="log" style="border:1px solid #ccc; padding:10px; min-height:100px;">
+  <p><i>No feedback yet</i></p>
+</div>
+
+<script>
+function submitFeedback() {
+  const input = document.getElementById("feedbackInput");
+  const log = document.getElementById("log");
+
+  if (input.value.trim() === "") return;
+
+  if (log.innerHTML.includes("No feedback yet")) {
+    log.innerHTML = "";
+  }
+
+  const p = document.createElement("p");
+  p.textContent = "• " + input.value;
+
+  log.appendChild(p);
+  input.value = "";
+}
+</script>
