@@ -47,18 +47,18 @@ button {
   <h2>V6 Script – Report Error</h2>
 
   <textarea id="error" placeholder="Error:"></textarea>
-  <textarea id="fix" placeholder="Want to fix:"></textarea>
+  <textarea id="want_fix" placeholder="Want_fix:"></textarea>
 
   <button onclick="submitData()">SUBMIT</button>
   <div id="msg"></div>
 </div>
 
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/library/d/1yiAPMKJKbu-FMCpWkparmDmMSTGPptDhrKJDOh8avo-ZpXZ1T1-XCE5M/8"; // 👈 paste doPost URL
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxm1Pagyq0i9flSh67ouMWEt9cDcJpoP1YBnZq6T6lZw_Q5uxCoDbVxUOL3vJy63IwddA/exec"; // 👈 paste doPost URL
 
 function submitData() {
   const error = document.getElementById("error").value;
-  const fix = document.getElementById("fix").value;
+  const fix = document.getElementById("want_fix").value;
   const msg = document.getElementById("msg");
 
   fetch(WEB_APP_URL, {
@@ -75,7 +75,7 @@ function submitData() {
       msg.style.color = "lime";
       msg.innerText = "✅ Submitted successfully";
       document.getElementById("error").value = "";
-      document.getElementById("fix").value = "";
+      document.getElementById("want_fix").value = "";
     } else {
       throw new Error(data.message);
     }
