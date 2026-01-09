@@ -14,9 +14,9 @@
 <button onclick="sendData()">Submit</button>
 
 <p id="result"></p>
-
+  
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwU6fdLRTOYSxrdZn4PFsiQRZ-SZ4D1Jlj1_sZ3jdp7KFOkApfsZ_ejDdM_u6-uxq49xg/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz0s-ImkRvtvshMRQO4ns5Hz0t5vY86lVf-0ltnQjEWi-ZI44a1kIKadYgpkSDRZciZFg/exec";
 
 function sendData() {
   const formData = new FormData();
@@ -27,11 +27,12 @@ function sendData() {
     method: "POST",
     body: formData
   })
-  .then(res => res.text())
-  .then(txt => {
-    document.getElementById("result").innerText = txt;
+  .then(res => res.json())
+  .then(res => {
+    document.getElementById("result").innerText =
+      res.status === "success" ? "Submitted ✅" : "Failed ❌";
   })
-  .catch(err => {
+  .catch(() => {
     document.getElementById("result").innerText = "Error ❌";
   });
 }
