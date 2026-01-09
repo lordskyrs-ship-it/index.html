@@ -1,0 +1,80 @@
+LANG = "EN" -- EN | KR | JP
+
+FONT = {}
+
+FONT.EN = {
+a="a",b="b",c="c",d="d",e="e",f="f",g="g",
+h="h",i="i",j="j",k="k",l="l",m="m",
+n="n",o="o",p="p",q="q",r="r",s="s",
+t="t",u="u",v="v",w="w",x="x",y="y",z="z"
+}
+
+FONT.KR = {
+a="아", b="비", c="씨", d="디", e="이", f="에프", g="지",
+h="에이치", i="아이", j="제이", k="케이", l="엘", m="엠",
+n="엔", o="오", p="피", q="큐", r="알", s="에스",
+t="티", u="유", v="브이", w="더블유", x="엑스", y="와이", z="지"
+}
+
+FONT.JP = {
+a="あ", b="び", c="し", d="で", e="え", f="ふ", g="じ",
+h="は", i="い", j="じ", k="け", l="る", m="む",
+n="ん", o="お", p="ぷ", q="く", r="ら", s="す",
+t="と", u="う", v="ゔ", w="わ", x="くさ", y="や", z="ざ"
+}
+
+
+function TXT(text)
+    local out = ""
+    text = text:lower()
+    for i = 1, #text do
+        local c = text:sub(i,i)
+        out = out .. (FONT[LANG][c] or c)
+    end
+    return out
+end
+
+gg.alert(TXT("damage"))
+gg.toast(TXT("speed hack"))
+
+function SelectLanguage()
+    local c = gg.choice({
+        "English",
+        "Korean",
+        "Japanese"
+    }, nil, "🌐 Select Language")
+
+    if c == 1 then LANG="EN"
+    elseif c == 2 then LANG="KR"
+    elseif c == 3 then LANG="JP"
+    end
+
+    gg.toast("Language changed")
+end
+SelectLanguage()
+
+if  MAIN_MENU()
+menu = gg.choice({
+" HACK1",
+" HACK2",
+" EXIT"})
+
+
+if menu == 1 then H1()end
+if menu == 2 then H2()end
+if menu == 3 then EX()end
+end
+
+function H1()end
+
+function H2()end
+
+function EX()end
+
+
+while true do
+    if gg.isVisible(true) then
+        gg.setVisible(false)
+        MAIN_MENU()
+    end
+end
