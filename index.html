@@ -2,50 +2,34 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Error Report</title>
+  <title>Feedback</title>
 </head>
 <body>
 
-<h2>Submit Error</h2>
+<h2>Feedback</h2>
 
-<input id="name" placeholder="Error (unsay problema?)"><br><br>
+<textarea id="feedback" placeholder="Write your feedback..." rows="5" cols="30"></textarea>
+<br><br>
 
-<textarea id="message" placeholder="Want to fix (unsa imong gusto ayohon?)"></textarea><br><br>
-
-<button onclick="sendData()">Submit</button>
+<button onclick="send()">Submit</button>
 
 <p id="result"></p>
 
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyQxTtuSOZ9GsMcJFdRwSXFx-GkIOqCm7SlGHMk7xjDInFooXp8IK-4VRWvgeaP6uCwpw/exec"; // <-- ibutang imong Web App URL
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxEe8bReBDrTiEyTyxGjhhT8_Q4T7bSAt8dNZut3v-VO3v4pyPP0ap9-TIsW3ag2lUE/exec";
 
-function sendData() {
-  const name = document.getElementById("name").value.trim();
-  const message = document.getElementById("message").value.trim();
+function send() {
+  const feedback = document.getElementById("feedback").value;
 
-  if (!name || !message) {
-    document.getElementById("result").innerText = "Fill all fields ❌";
-    return;
-  }
-
-  fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      name: name,
-      message: message
+  fetch(WEB_APP_URL + "?feedback=" + encodeURIComponent(feedback))
+    .then(res => res.text())
+    .then(txt => {
+      document.getElementById("result").innerText =
+        txt === "OK" ? "Submitted ✅" : txt;
     })
-  })
-  .then(res => res.json())
-  .then(res => {
-    document.getElementById("result").innerText =
-      res.status === "success" ? "Submitted ✅" : "Failed ❌";
-  })
-  .catch(() => {
-    document.getElementById("result").innerText = "Error ❌";
-  });
+    .catch(err => {
+      document.getElementById("result").innerText = "Error ❌";
+    });
 }
 </script>
 
