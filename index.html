@@ -5,25 +5,10 @@
 </head>
 <body>
 
-<h1>GAMES APP COMING SOON</h1>
+<h1>SCRIPT</h1>
 
 <p>Downloads: <span id="count">0</span></p>
 
 <a href="V6.txt" download onclick="addCount()">
   Download Script V6
 </a>
-
-<script>
-fetch('https://api.countapi.xyz/get/lordskyrs/v6')
-.then(res => res.json())
-.then(data => {
-  document.getElementById('count').innerText = data.value;
-});
-
-function addCount() {
-  fetch('https://api.countapi.xyz/hit/lordskyrs/v6');
-}
-</script>
-
-</body>
-</html>
