@@ -82,9 +82,26 @@ button{
 <!-- PAGE 2 ENTER CODE -->
 <div class="box hidden" id="codePage">
   <h3>Enter Code</h3>
-  <input class="fb-input" placeholder="Enter Code">
-  <button>Submit</button>
+  <input 
+  id="codeInput"
+  class="fb-input" 
+  placeholder="Enter Code"
+>
+
+<button onclick="submitCode()">Submit</button>
   <div class="link" onclick="getCode()">Don't have a Code? Get Code</div>
+</div>
+
+  <!-- SCRIPT LIST AFTER CODE -->
+<div class="box hidden" id="scriptList">
+  <h3>Available Scripts</h3>
+
+  <a href="V6.txt" download>
+    <button>Download Script V6</button>
+  </a>
+
+  <button onclick="alert('NO SCRIPT')">Super Bear Adventure</button>
+  <button onclick="alert('NO SCRIPT')">Gym Idle Clicker</button>
 </div>
 
 <!-- FEEDBACK 1 -->
@@ -153,6 +170,19 @@ function backMain(){
   codeShow.classList.add("hidden");
   codePage.classList.remove("hidden");
 }
+
+  <script>
+function submitCode(){
+  const code = document.getElementById("codeInput").value;
+
+  if(code === "5864"){
+    document.getElementById("codePage").classList.add("hidden");
+    document.getElementById("scriptList").classList.remove("hidden");
+  } else {
+    alert("Wrong code");
+  }
+}
+
 </script>
 
 </body>
