@@ -21,6 +21,17 @@ body{
   box-shadow:0 0 40px rgba(90,0,255,.4);
 }
 
+  .fb-title{
+  font-size:20px;
+  font-weight:700;
+  margin-bottom:6px;
+  letter-spacing:1px;
+}
+.fb-sub{
+  font-size:13px;
+  opacity:0.8;
+  margin-bottom:10px;
+}
 /* Loading */
 .circle{
   width:70px;height:70px;border-radius:50%;
@@ -79,25 +90,36 @@ body{
 
 <!-- FB 1 -->
 <div id="fb1" class="hidden">
-  <h3>Send Feedback to Redeem</h3>
+  <div class="fb-title">FEEDBACK</div>
+  <div class="fb-sub">Tell us your experience</div>
+
   <input class="fb-input" placeholder="Feedback 1">
   <button class="btn" onclick="nextWithWait(1)">Next</button>
 </div>
 
 <!-- FB 2 -->
 <div id="fb2" class="hidden">
+  <div class="fb-title">FEEDBACK</div>
+  <div class="fb-sub">Any suggestions?</div>
+
   <input class="fb-input" placeholder="Feedback 2">
   <button class="btn" onclick="nextWithWait(2)">Next</button>
 </div>
 
 <!-- FB 3 (SAVE) -->
 <div id="fb3" class="hidden">
+  <div class="fb-title">FEEDBACK</div>
+  <div class="fb-sub">Report issue or bug</div>
+
   <input class="fb-input" id="f3" placeholder="Feedback 3">
   <button class="btn" onclick="saveAndNext()">Next</button>
 </div>
 
 <!-- FB 4 (SAVE) -->
 <div id="fb4" class="hidden">
+  <div class="fb-title">FEEDBACK</div>
+  <div class="fb-sub">Final feedback</div>
+
   <input class="fb-input" id="f4" placeholder="Feedback 4">
   <button class="btn" onclick="saveFinal()">REDEEM</button>
 </div>
