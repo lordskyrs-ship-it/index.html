@@ -24,7 +24,6 @@ body{
   text-align:center;
 }
 
-/* Facebook-like input */
 .fb-input{
   width:100%;
   height:44px;
@@ -55,7 +54,6 @@ button{
 
 .hidden{display:none}
 
-/* Loading */
 .loading{
   width:100%;
   background:#ddd;
@@ -82,26 +80,9 @@ button{
 <!-- PAGE 2 ENTER CODE -->
 <div class="box hidden" id="codePage">
   <h3>Enter Code</h3>
-  <input 
-  id="codeInput"
-  class="fb-input" 
-  placeholder="Enter Code"
->
-
-<button onclick="submitCode()">Submit</button>
+  <input id="codeInput" class="fb-input" placeholder="Enter Code">
+  <button onclick="submitCode()">Submit</button>
   <div class="link" onclick="getCode()">Don't have a Code? Get Code</div>
-</div>
-
-  <!-- SCRIPT LIST AFTER CODE -->
-<div class="box hidden" id="scriptList">
-  <h3>Available Scripts</h3>
-
-  <a href="V6.txt" download>
-    <button>Download Script V6</button>
-  </a>
-
-  <button onclick="alert('NO SCRIPT')">Super Bear Adventure</button>
-  <button onclick="alert('NO SCRIPT')">Gym Idle Clicker</button>
 </div>
 
 <!-- FEEDBACK 1 -->
@@ -126,6 +107,17 @@ button{
   <div class="link" onclick="backMain()">Back to main</div>
 </div>
 
+<!-- SCRIPT LIST -->
+<div class="box hidden" id="scriptList">
+  <h3>Available Scripts</h3>
+
+  <button onclick="downloadScript('script1.zip')">Download Script 1</button><br><br>
+  <button onclick="downloadScript('script2.zip')">Download Script 2</button><br><br>
+  <button onclick="downloadScript('script3.zip')">Download Script 3</button>
+
+  <div class="link" onclick="backMain()">Back to main</div>
+</div>
+
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxPZco9av6RzXCesIXIByfVHRHdhhqmDD8_UaeAb6R1akmK9jPhCvQrRZpRqy47bqUCPw/exec";
 
@@ -140,8 +132,9 @@ let loading=setInterval(()=>{
     page1.classList.add("hidden");
     codePage.classList.remove("hidden");
   }
-},110); // ≈11 seconds
+},110);
 
+/* GET CODE FLOW */
 function getCode(){
   codePage.classList.add("hidden");
   fb1.classList.remove("hidden");
@@ -161,28 +154,31 @@ function sendF2(){
   codeShow.classList.remove("hidden");
 }
 
+/* ENTER CODE */
+function submitCode(){
+  const code=document.getElementById("codeInput").value;
+  if(code==="5864"){
+    codePage.classList.add("hidden");
+    scriptList.classList.remove("hidden");
+  }else{
+    alert("Wrong code");
+  }
+}
+
 function copyCode(){
   navigator.clipboard.writeText("5864");
   alert("Code Copied");
 }
 
 function backMain(){
-  codeShow.classList.add("hidden");
+  document.querySelectorAll(".box").forEach(b=>b.classList.add("hidden"));
   codePage.classList.remove("hidden");
 }
 
-  <script>
-function submitCode(){
-  const code = document.getElementById("codeInput").value;
-
-  if(code === "5864"){
-    document.getElementById("codePage").classList.add("hidden");
-    document.getElementById("scriptList").classList.remove("hidden");
-  } else {
-    alert("Wrong code");
-  }
+/* DOWNLOAD */
+function downloadScript(file){
+  window.location.href=file;
 }
-
 </script>
 
 </body>
